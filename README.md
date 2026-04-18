@@ -29,8 +29,8 @@ Both scenarios share the same file naming convention (`f00`–`f06`) and are pla
 
 1. Open MATLAB and set the working directory to the desired scenario folder.
 2. Open `f01_loadInputParams.m` and set the key parameters:
-   - `sysParams.solver.gamma = 0;` for the conventional coordinate selection
-   - `sysParams.solver.gamma = 1;` for the proposed coordinate selection
+   - `sysParams.solver.gamma = 0;` for the conventional configuration (relative to the static equilibrium position)
+   - `sysParams.solver.gamma = 1;` for the proposed configuration (relative to the vehicle-bridge contact point)
    - For the multi-vehicle scenario, additionally set `d_spacing` (vehicle spacing), `T_total` (simulation duration), and `x0_lead` (initial position of the leading vehicle).
 3. Run `f00_mainProgram.m`.
 
