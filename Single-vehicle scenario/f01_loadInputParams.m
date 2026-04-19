@@ -44,8 +44,6 @@ function sysParams = f01_loadInputParams()
     % gamma - Configuration definition parameter [-]
     %         Controls the Configuration selection of the system.
     %         Modify this value to investigate its effect on eigenvalues.
-    %         gamma = 0 : Conventional coordinate selection (default)
-    %         gamma = 1 : Proposed coordinate selection (recommended)
     sysParams.solver.dt    = 0.001;
     sysParams.solver.Fs    = 1 / sysParams.solver.dt;
 
