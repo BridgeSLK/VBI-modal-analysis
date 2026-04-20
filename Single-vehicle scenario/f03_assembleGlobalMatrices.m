@@ -38,20 +38,28 @@ function globalMat = f03_assembleGlobalMatrices(sysParams, beamElem)
     globalMat.K = zeros(Dof, Dof, Num_steps);
     globalMat.P = zeros(Dof, 1,   Num_steps);
 
+    %% Assemble bridge global matrices
+    M_bridge = zeros(Dof, Dof);
+    C_bridge = zeros(Dof, Dof);
+    K_bridge = zeros(Dof, Dof);
+    for i = 1:n
+        j   = i + 1;
+        idx = 2*i-1 : 2*j;
+        M_bridge(idx, idx) = M_bridge(idx, idx) + beamElem.Me;
+        C_bridge(idx, idx) = C_bridge(idx, idx) + beamElem.Ce;
+        K_bridge(idx, idx) = K_bridge(idx, idx) + beamElem.Ke;
+    end
+
     fprintf('-----\n');
     fprintf('  Assembling global matrices, please wait ... (^_^)       \n');
 
     %% Assemble matrices for each time step
     for T = 1:Num_steps
 
-        %% Assemble bridge element matrices
-        for i = 1:n
-            j   = i + 1;
-            idx = 2*i-1 : 2*j;
-            globalMat.M(idx, idx, T) = globalMat.M(idx, idx, T) + beamElem.Me;
-            globalMat.C(idx, idx, T) = globalMat.C(idx, idx, T) + beamElem.Ce;
-            globalMat.K(idx, idx, T) = globalMat.K(idx, idx, T) + beamElem.Ke;
-        end
+        %% Start from bridge matrices
+        globalMat.M(:,:,T) = M_bridge;
+        globalMat.C(:,:,T) = C_bridge;
+        globalMat.K(:,:,T) = K_bridge;
 
         %% Compute vehicle position at current time step
         t  = (T-1) * dt;
